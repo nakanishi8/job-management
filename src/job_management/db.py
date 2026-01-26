@@ -23,7 +23,7 @@ class Job(Base):
     status: Mapped[JobStatus] = mapped_column(Enum(JobStatus))
 
 
-engine = create_engine("sqlite:///outputs/jobs.db")
+engine = create_engine("sqlite:///src/job_management/outputs/jobs.db")
 Base.metadata.create_all(engine)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

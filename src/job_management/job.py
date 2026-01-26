@@ -7,7 +7,7 @@ from problem import ProblemInputModel, ProblemOutputModel, solve_problem
 
 def execute_job(name: str, input_data: ProblemInputModel) -> None:
     job_id = create_job(name)
-    save_dir = Path(f"outputs/{job_id}")
+    save_dir = Path(f"src/job_management/outputs/{job_id}")
     save_dir.mkdir(parents=True, exist_ok=False)
 
     try:

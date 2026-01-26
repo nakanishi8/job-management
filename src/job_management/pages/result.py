@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import streamlit as st
-
 from db import JobStatus, get_job
 
 if __name__ == "__main__":
@@ -17,7 +16,7 @@ if __name__ == "__main__":
         st.error(f"Job with id {job_id} does not exist.")
         st.stop()
 
-    load_dir = Path(f"outputs/{job_id}")
+    load_dir = Path(f"src/job_management/outputs/{job_id}")
     with open(load_dir / "input.json", "r") as f:
         input_data = f.read()
 
