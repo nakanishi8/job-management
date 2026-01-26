@@ -22,18 +22,12 @@ Streamlitを使用した長時間処理対応のジョブ管理システム
 ```bash
 # 依存関係のインストール
 uv sync --all-groups
-
-# パッケージを編集可能モードでインストール
-uv pip install -e .
-
-# 出力ディレクトリの作成
-mkdir -p outputs
 ```
 
 ## 起動方法
 
 ```bash
-streamlit run app/main.py
+streamlit run src/job_management/main.py
 ```
 
 ブラウザで http://localhost:8501 にアクセス
@@ -61,12 +55,18 @@ pytest --cov=example_project
 ## アーキテクチャ
 
 ```
-app/
-├── main.py           # エントリーポイント（Streamlitナビゲーション）
-├── db.py             # データベース層（SQLAlchemy + SQLite）
-├── job.py            # ジョブ実行オーケストレーション
-├── problem.py        # ドメインロジック（Pydanticモデル）
-└── pages/            # StreamlitのUIページ
+src/
+└── job_management/
+    ├── main.py           # エントリーポイント（Streamlitナビゲーション）
+    ├── db.py             # データベース層（SQLAlchemy + SQLite）
+    ├── job.py            # ジョブ実行オーケストレーション
+    ├── problem.py        # ドメインロジック（Pydanticモデル）
+    ├── outputs/          # 
+        └── jobs.db       # 
+    └── pages/            # StreamlitのUIページ
+        ├── job_execution.py  # 
+        ├── job_list.py       # 
+        └── result.py         # 
 ```
 
 ### データフロー
@@ -74,7 +74,7 @@ app/
 1. ユーザーが入力値を送信
 2. `execute_job()`がマルチプロセスで実行
 3. ジョブステータス: RUNNING → COMPLETED/FAILED
-4. 入出力データは`outputs/{job_id}/`に保存
+4. 入出力データは`src/job_management/outputs/{job_id}/`に保存
 
 ## ライセンス
 
