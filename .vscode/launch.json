@@ -5,12 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "debug",
+            "name": "Streamlit",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}",
+            "module": "streamlit",
             "console": "integratedTerminal",
-            "args": []
-        },
+            "args": [
+                "run",
+                "src/job_management/main.py",
+                "--server.runOnSave",
+                "true"
+            ]
+        }
     ]
 }
