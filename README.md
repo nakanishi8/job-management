@@ -49,7 +49,7 @@ ruff format .
 pytest
 
 # カバレッジ付きテスト
-pytest --cov=example_project
+pytest --cov=src/job_management
 ```
 
 ## アーキテクチャ
@@ -57,16 +57,16 @@ pytest --cov=example_project
 ```
 src/
 └── job_management/
-    ├── main.py           # エントリーポイント（Streamlitナビゲーション）
-    ├── db.py             # データベース層（SQLAlchemy + SQLite）
-    ├── job.py            # ジョブ実行オーケストレーション
-    ├── problem.py        # ドメインロジック（Pydanticモデル）
-    ├── outputs/          # 
-        └── jobs.db       # 
-    └── pages/            # StreamlitのUIページ
-        ├── job_execution.py  # 
-        ├── job_list.py       # 
-        └── result.py         # 
+    ├── main.py              # エントリーポイント（Streamlitナビゲーション）
+    ├── db.py                # データベース層（SQLAlchemy + SQLite）
+    ├── job.py               # ジョブ実行オーケストレーション
+    ├── problem.py           # ドメインロジック（Pydanticモデル）
+    ├── outputs/             # ジョブ出力ディレクトリ（SQLite DB + JSONファイル）
+    │   └── {job_id}/       # ジョブごとの出力（input.json, output.json）
+    └── pages/               # StreamlitのUIページ
+        ├── job_execution.py # ジョブ作成フォーム
+        ├── job_list.py      # ジョブ一覧テーブル
+        └── result.py        # ジョブ結果表示
 ```
 
 ### データフロー

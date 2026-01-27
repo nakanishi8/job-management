@@ -12,20 +12,14 @@ Streamlit-based job management system (streamlit-job-manager) for handling long-
 # Install dependencies (uses UV package manager)
 uv sync --all-groups
 
-# Install package in editable mode (required for imports)
-uv pip install -e .
-
-# Create outputs directory (required before first run)
-mkdir -p outputs
-
 # Run the Streamlit app
-streamlit run app/main.py
+streamlit run src/job_management/main.py
 
 # Run tests
 pytest
 
 # Run tests with coverage
-pytest --cov=example_project
+pytest --cov=src/job_management
 
 # Lint and format
 ruff check . --fix
@@ -35,22 +29,24 @@ ruff format .
 ## Architecture
 
 ```
-app/
-├── main.py           # Entry point - Streamlit navigation
-├── db.py             # SQLAlchemy + SQLite persistence (Job model, JobStatus enum)
-├── job.py            # Job execution orchestration
-├── problem.py        # Domain logic (Pydantic models, solve_problem)
-└── pages/            # Streamlit UI pages
-    ├── job_execution.py    # Job creation form
-    ├── job_list.py         # Job listing table
-    └── result.py           # Job result display
+src/
+└── job_management/
+    ├── main.py           # Entry point - Streamlit navigation
+    ├── db.py             # SQLAlchemy + SQLite persistence (Job model, JobStatus enum)
+    ├── job.py            # Job execution orchestration
+    ├── problem.py        # Domain logic (Pydantic models, solve_problem)
+    ├── outputs/          # Job output directory (SQLite DB + JSON files)
+    └── pages/            # Streamlit UI pages
+        ├── job_execution.py    # Job creation form
+        ├── job_list.py         # Job listing table
+        └── result.py           # Job result display
 ```
 
 **Data flow:** User input (pages) → `execute_job()` → `solve_problem()` → SQLite + JSON output
 
 **Key patterns:**
 - Jobs run in `multiprocessing.Process` for async execution
-- Output stored at `outputs/{job_id}/` (input.json, output.json)
+- Output stored at `src/job_management/outputs/{job_id}/` (input.json, output.json)
 - Job status: RUNNING → COMPLETED/FAILED
 - ULID for unique job IDs
 
